@@ -13,6 +13,10 @@ The code contains an implementation of the article head and gaze tracking contro
 1. In order to execute the python code with ros, you need to have a python3 environment compatible with ros. In order to do so, follow the instructions in the following video(only install necessay dependecies!!!!) https://www.youtube.com/watch?v=oxK4ykVh1EE
 2. Download the husky package, this can be seen in the following link
 http://wiki.ros.org/husky_gazebo/Tutorials/Simulating%20Husky
+3. Download the robotiq gripper package in your src folder
+```
+git clone https://github.com/utecrobotics/robotiq
+```
 ## Build
 1. To build, create a new catkin_ws workspace(xxxxx_ws->name the worksapce as you wish)
 ```
