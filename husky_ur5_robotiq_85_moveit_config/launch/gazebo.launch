@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="paused" default="true"/>
+  <arg name="paused" default="false"/>
   <arg name="gazebo_gui" default="true"/>
   <arg name="initial_joint_positions" doc="Initial joint configuration of the robot"
        default=" -J robotiq_85_left_knuckle_joint 0.1 -J ur5_arm_elbow_joint 2.20 -J ur5_arm_shoulder_lift_joint -2.14 -J ur5_arm_shoulder_pan_joint 0 -J ur5_arm_wrist_1_joint -3.1415 -J ur5_arm_wrist_2_joint -1.5794 -J ur5_arm_wrist_3_joint 0"/>
@@ -11,7 +11,7 @@
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <!-- <arg name="world_name" default="worlds/empty.world"/> -->
     <arg name="world_name" default="$(find husky_ur5_robotiq_85_moveit_config)/world/hrit_world.world"/>
-    <arg name="paused" value="true"/>
+    <arg name="paused" value="false"/>
     <arg name="gui" value="$(arg gazebo_gui)"/>
   </include>
 
