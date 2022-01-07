@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: husky_ur5_robotiq_85
+    relative_path: urdf/husky_ur5_robotiq85_gripper.urdf.xacro
+    xacro_args: ""
+  SRDF:
+    relative_path: config/ur5_husky_robotiq_85f.srdf
+  CONFIG:
+    author_name: stevedan
+    author_email: stevedan.o.omodolor@gmail.com
+    generated_timestamp: 1639946344

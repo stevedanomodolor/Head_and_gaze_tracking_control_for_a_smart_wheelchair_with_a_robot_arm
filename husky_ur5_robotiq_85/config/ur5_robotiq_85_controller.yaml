@@ -1,0 +1,91 @@
+# Publish all joint states -----------------------------------
+joint_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 125
+
+# Gripper controller
+gripper_controller:
+  type: position_controllers/GripperActionController
+  joint: robotiq_85_left_knuckle_joint
+  action_monitor_rate: 20
+  goal_tolerance: 0.002
+  max_effort: 100
+  stall_velocity_threshold: 0.001
+  stall_timeout: 1.0
+
+# Trajectory controller
+ur5_trajectory_controller:
+  type: position_controllers/JointTrajectoryController
+  joints:
+    - ur5_arm_shoulder_pan_joint
+    - ur5_arm_shoulder_lift_joint
+    - ur5_arm_elbow_joint
+    - ur5_arm_wrist_1_joint
+    - ur5_arm_wrist_2_joint
+    - ur5_arm_wrist_3_joint
+  constraints:
+    goal_time: 0.6
+    stopped_velocity_tolerance: 0.05
+    ur5_arm_shoulder_pan_joint: {trajectory: 0.1, goal: 0.1}
+    ur5_arm_shoulder_lift_joint: {trajectory: 0.1, goal: 0.1}
+    ur5_arm_elbow_joint: {trajectory: 0.1, goal: 0.1}
+    ur5_arm_wrist_1_joint: {trajectory: 0.1, goal: 0.1}
+    ur5_arm_wrist_2_joint: {trajectory: 0.1, goal: 0.1}
+    ur5_arm_wrist_3_joint: {trajectory: 0.1, goal: 0.1}
+  stop_trajectory_duration: 0.5
+  state_publish_rate: 25
+  action_monitor_rate: 10
+ur5_joint_group_position_controller:
+  type: position_controllers/JointGroupPositionController
+  joints:
+     - ur5_arm_shoulder_pan_joint
+     - ur5_arm_shoulder_lift_joint
+     - ur5_arm_elbow_joint
+     - ur5_arm_wrist_1_joint
+     - ur5_arm_wrist_2_joint
+     - ur5_arm_wrist_3_joint
+# /gazebo_ros_control:
+#     pid_gains:
+#       ur5_arm_shoulder_pan_joint: {p: 500.0, i: 0.01, d: 50.0, i_clamp_min: -100.0, i_clamp_max: 100.0}
+#       ur5_arm_shoulder_lift_joint: {p: 500.0, i: 100.0, d: 30.0, i_clamp_min: -400.0, i_clamp_max: 400.0}
+#       ur5_arm_elbow_joint: {p: 10000.0, i: 0.01, d: 50.0, i_clamp_min: -100.0, i_clamp_max: 100.0}
+#       ur5_arm_wrist_1_joint: {p: 200.0, i: 10.0, d: 20.0, i_clamp_min: -400.0, i_clamp_max: 400.0}
+#       ur5_arm_wrist_2_joint: {p: 100.0, i: 0.1, d: 10.0, i_clamp_min: -100.0, i_clamp_max: 100.0}
+#       ur5_arm_wrist_3_joint: {p: 100.0, i: 0.1, d: 10.0, i_clamp_min: -100.0, i_clamp_max: 100.0}
+
+#
+/gazebo_ros_control:
+    pid_gains:
+      ur5_arm_shoulder_pan_joint: {p: 100.0, i: 0.01, d: 10.0}
+      ur5_arm_shoulder_lift_joint: {p: 100.0, i: 0.01, d: 10.0}
+      ur5_arm_elbow_joint: {p: 100.0, i: 0.01, d: 10.0}
+      ur5_arm_wrist_1_joint: {p: 200.0, i: 100.01, d: 10.0}
+      ur5_arm_wrist_2_joint: {p: 100.0, i: 0.01, d: 10.0}
+      ur5_arm_wrist_3_joint: {p: 100.0, i: 0.01, d: 10.0}
+#
+# /gazebo_ros_control:
+# pid_gains:
+# shoulder_pan_joint:
+# p: 100.0
+# i: 0.01
+# d: 10.0
+# shoulder_lift_joint:
+# p: 100.0
+# i: 0.01
+# d: 10.0
+# elbow_joint:
+# p: 100.0
+# i: 0.01
+# d: 10.0
+# wrist_1_joint:
+# p: 100.0
+# i: 0.01
+# d: 10.0
+# wrist_2_joint:
+# p: 100.0
+# i: 0.01
+# d: 10.0
+# wrist_3_joint:
+# p: 100.0
+# i: 0.01
+# d: 10.0

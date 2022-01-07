@@ -1,0 +1,10 @@
+float64 roll
+float64 pitch
+float64 yaw
+int32 x_cursor
+int32 y_cursor
+int32 x_screen
+int32 y_screen
+int32 mode
+bool open_mouth
+bool emergency_stop

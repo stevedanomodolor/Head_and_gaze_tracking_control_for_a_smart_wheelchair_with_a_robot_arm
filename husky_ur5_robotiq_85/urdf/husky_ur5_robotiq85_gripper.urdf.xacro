@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+<robot name="ur5_husky_robotiq_85f" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- common stuff -->
+  <xacro:include filename="$(find husky_ur5_robotiq_85)/urdf/common.gazebo.xacro" />
+  <!-- ur5 -->
+  <xacro:include filename="$(find husky_ur5_robotiq_85)/urdf/ur5.urdf.xacro" />
+  <!-- arm -->
+  <xacro:ur5_robot prefix="ur5_arm_" joint_limited="false"/>
+  <xacro:include filename="$(find robotiq_description)/urdf/robotiq_85_gripper.urdf.xacro" />
+  <xacro:include filename="$(find husky_description)/urdf/husky.urdf.xacro" />
+
+
+  <!-- <link name="world"/> -->
+    <!-- <joint name="world_joint" type="float">
+      <parent link="base_link"/>
+      <child link="base_footprint"/>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+    </joint> -->
+
+  <!-- <joint name="camera_tool_joint" type="fixed">
+   <parent link="camera_base_link" />
+   <child link="ur5_arm_tool0" />
+   <origin xyz="0 0 1" rpy="0 0 0"/>
+ </joint> -->
+
+  <joint name="arm_mount_joint" type="fixed">
+   <parent link="top_plate_front_link" />
+   <child link="ur5_arm_base_link" />
+   <origin xyz="$(optenv HUSKY_UR_XYZ -0.105 0.0 0.0)" rpy="$(optenv HUSKY_UR_RPY 0 0 0)"/>
+ </joint>
+  <!-- Robotiq Coupler -->
+  <!--  + Height added by the coupler: 8mm -->
+  <!--  + Reference frame: at the middle (4mm) -->
+  <link name="robotiq_coupler">
+    <visual>
+      <geometry>
+        <mesh filename="package://robotiq_description/meshes/robotiq_85_coupler.stl" />
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://robotiq_description/meshes/robotiq_85_coupler.stl" />
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="2.073e-05   1.45286e-03  -1.1049e-03" rpy="0 0 0" />
+      <mass value="0.168" />
+      <inertia ixx="6.69695624e-05" ixy="5.21511788e-09" ixz="-2.74383009e-08"
+               iyy="7.85088161e-05" iyz="5.41105193e-07" izz="1.41819717e-04"/>
+    </inertial>
+  </link>
+  <joint name="robotiq_coupler_joint" type="fixed">
+    <origin xyz="0 0 0.004" rpy="0 0 ${-pi/2.0}" />
+    <parent link="ur5_arm_tool0"/>
+    <child link="robotiq_coupler"/>
+  </joint>
+  <gazebo reference="robotiq_coupler">
+    <mu1>0.9</mu1>
+    <mu2>0.9</mu2>
+    <material>Gazebo/FlatBlack</material>
+  </gazebo>
+
+  <!-- Equivalent to the OpenRAVE manipulator denso_robotiq_85_gripper -->
+  <!-- <link name="denso_robotiq_85_gripper" /> -->
+  <!-- <joint name="manipulator_dummy_joint" type="fixed"> -->
+  <!--   <origin xyz="0 0 0.1441" rpy="0 0 0" /> -->
+  <!--   <parent link="robotiq_coupler"/> -->
+  <!--   <child link="denso_robotiq_85_gripper"/> -->
+  <!-- </joint> -->
+  <!-- Attach the robotiq 85 gripper -->
+  <xacro:robotiq_85_gripper prefix="" parent="robotiq_coupler" >
+    <origin xyz="0 0 0.004" rpy="0 ${-pi/2} ${pi}"/>
+  </xacro:robotiq_85_gripper>
+
+  <!-- Gazebo FT sensor plugin -->
+  <gazebo reference="ur5_arm_wrist_3_joint">
+    <provideFeedback>true</provideFeedback>
+  </gazebo>
+  <gazebo>
+    <plugin name="ft_sensor_plugin" filename="libgazebo_ros_ft_sensor.so">
+      <updateRate>250.0</updateRate>
+      <topicName>ft_sensor/raw</topicName>
+      <gaussianNoise>0.0</gaussianNoise>
+      <jointName>ur5_arm_wrist_3_joint</jointName>
+    </plugin>
+  </gazebo>
+  <!-- Gazebo grasping plugin -->
+  <gazebo>
+    <gripper name="gazebo_gripper">
+      <grasp_check>
+        <attach_steps>2</attach_steps>    <!-- default: 20 -->
+        <detach_steps>2</detach_steps>    <!-- default: 40 -->
+        <min_contact_count>3</min_contact_count>
+      </grasp_check>
+      <gripper_link>robotiq_85_left_finger_tip_link</gripper_link>
+      <gripper_link>robotiq_85_right_finger_tip_link</gripper_link>
+      <palm_link>robotiq_85_base_link</palm_link>
+    </gripper>
+  </gazebo>
+
+  <joint name="camera_joint" type="fixed">
+  <origin xyz="0 0 0.055" rpy="0 0 0"/>
+  <parent link="ur5_arm_ee_link"/>
+  <child link="camera_link"/>
+</joint>
+
+
+  <!-- Camera -->
+  <link name="camera_link">
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.05 0.05 0.05"/>
+        </geometry>
+      </collision>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+  	<box size="0.05 0.05 0.05"/>
+        </geometry>
+        <material name="RRBOT/red"/>
+      </visual>
+
+      <inertial>
+        <mass value="1e-5" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+      </inertial>
+    </link>
+
+
+  <!-- camera -->
+  <!-- ASUS Xtion PRO camera for simulation -->
+       <gazebo reference="camera_link">
+         <sensor type="depth" name="camera1">
+           <update_rate>10</update_rate>
+           <camera>
+             <horizontal_fov>${62.8 * M_PI/180.0}</horizontal_fov>
+             <image>
+               <format>R8G8B8</format>
+               <width>640</width>
+               <height>480</height>
+             </image>
+             <clip>
+               <near>0.05</near>
+               <far>12</far>
+             </clip>
+           </camera>
+           <plugin name="camera_link_camera_controller" filename="libgazebo_ros_openni_kinect.so">
+             <alwaysOn>true</alwaysOn>
+             <updateRate>10</updateRate>
+             <imageTopicName>camera1/image_raw</imageTopicName>
+             <cameraInfoTopicName>camera1/camera_info</cameraInfoTopicName>
+             <depthImageTopicName>camera1/depth/image_raw</depthImageTopicName>
+             <depthImageCameraInfoTopicName>camera1/depth/camera_info</depthImageCameraInfoTopicName>
+             <pointCloudTopicName>camera1/depth/points</pointCloudTopicName>
+             <frameName>camera_link_optical_frame</frameName>
+             <distortion_k1>0.0</distortion_k1>
+             <distortion_k2>0.0</distortion_k2>
+             <distortion_k3>0.0</distortion_k3>
+             <distortion_t1>0.0</distortion_t1>
+             <distortion_t2>0.0</distortion_t2>
+           </plugin>
+         </sensor>
+       </gazebo>
+
+</robot>

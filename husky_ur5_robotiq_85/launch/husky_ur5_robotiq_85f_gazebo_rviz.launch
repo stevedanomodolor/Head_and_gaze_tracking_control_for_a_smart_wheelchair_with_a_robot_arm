@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<launch>
+<!--
+  <env name="GAZEBO_MODEL_PATH"
+       value="$(find husky_ur5_robotiq_85)/models:$(optenv GAZEBO_MODEL_PATH)" /> -->
+
+  <!-- Launch file parameters -->
+  <arg name="paused"     default="true"/>
+  <arg name="debug"      default="false"/>
+  <arg name="gui"        default="true"/>
+  <arg name="rate"       default="125" />
+  <arg name="sim" default="true" />
+
+  <!-- <arg name="world_name" default="$(find husky_ur5_robotiq_85)/worlds/ur5_world_setup.world" /> -->
+
+  <!-- Start up simulated world -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <!-- <arg name="world_name" value="$(arg world_name)"/> -->
+    <arg name="paused"     value="$(arg paused)"/>
+    <arg name="debug"      value="$(arg debug)"/>
+    <arg name="gui"        value="$(arg gui)"/>
+  </include>
+
+  <!-- Send robot urdf to param server -->
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find husky_ur5_robotiq_85)/urdf/husky_ur5_robotiq85_gripper.urdf.xacro'" />
+  <!-- Spawn robot in gazebo (and move it upwards):
+       better initial values should be -2.355 and 1.57 but the robot does
+       something strange when unpausing it
+  -->
+  <node name="spawn_gazebo_model" pkg="gazebo_ros" type="spawn_model"
+        args="-urdf -param robot_description -model ur5_husky_robotiq_85f
+              -J ur5_arm_shoulder_lift_joint -1.1
+              -J ur5_arm_elbow_joint -1.57
+              -J ur5_arm_wrist_2_joint 1.57"
+        output="screen" />
+
+  <include file="$(find husky_ur5_robotiq_85)/launch/controller_utils.launch"/>
+  <rosparam file="$(find husky_ur5_robotiq_85)/controller/arm_controller_ur5.yaml" command="load"/>
+  <rosparam file="$(find husky_ur5_robotiq_85)/controller/gripper_controller_robotiq.yaml" command="load"/>
+  <rosparam file="$(find husky_ur5_robotiq_85)/controller/husky_controller.yaml" command="load"/>
+
+  <!-- <node name="arm_controller_spawner" pkg="controller_manager" type="controller_manager" args="spawn arm_controller gripper" respawn="false" output="screen"/> -->
+  <node name="robot_controller_spawner" pkg="controller_manager" type="controller_manager" args="spawn husky_velocity_controller arm_controller gripper" respawn="false" output="screen"/>
+  <include file="$(find husky_ur5_robotiq_85_moveit_config)/launch/husky_ur5_robotiq_85_moveit_planning_execution.launch">
+    <arg name="debug" default="$(arg debug)" />
+    <arg name="sim" default="$(arg sim)" />
+  </include>
+
+  <include file="$(find husky_ur5_robotiq_85_moveit_config)/launch/moveit_rviz.launch">
+  <arg name="debug" default="$(arg debug)" />
+  <arg name="rviz_config" default="true" />
+</include>
+
+  </launch>
