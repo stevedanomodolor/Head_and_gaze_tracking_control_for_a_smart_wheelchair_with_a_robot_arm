@@ -66,4 +66,5 @@ rosrun mobile_manipulation_alg wheel_chair_head_control_manager_node
 1. stevedan.ogochu.omodolor@estudiantat.upc.edu;
 2. pablo.manas@estudiantat.upc.edu;
 3. javier.pedrosa@estudiantat.upc.edu;
+
 These authors contributed equally to this work.
