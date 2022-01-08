@@ -5,9 +5,15 @@
 * [Dependencies](#Dependencies)
 * [Build](#Build)
 * [Usage](#Usage)
+* [Contributing authors](#Contributing-authors)
+
 
 ## General Info
 The code contains an implementation of the article head and gaze tracking control for a smart wheelchair with robotic arm. Check the following article for an in depth information. **link**. It is part of a project of the human  robot interaction & operation course of the master's degree in automatic control and robotic UPC ETSEIB
+
+
+![Output sample](files/final_demo.gif)
+
 
 ## Dependencies
 1. In order to execute the python code with ros, you need to have a python3 environment compatible with ros. In order to do so, follow the instructions in the following video(only install necessay dependecies!!!!) https://www.youtube.com/watch?v=oxK4ykVh1EE
@@ -55,3 +61,9 @@ cd ~/xxxxx_ws
 source ~/xxxxx_ws/devel/setup.bash
 rosrun mobile_manipulation_alg wheel_chair_head_control_manager_node
 ```
+
+## Contributing authors
+1. stevedan.ogochu.omodolor@estudiantat.upc.edu;
+2. pablo.manas@estudiantat.upc.edu;
+3. javier.pedrosa@estudiantat.upc.edu;
+These authors contributed equally to this work.
