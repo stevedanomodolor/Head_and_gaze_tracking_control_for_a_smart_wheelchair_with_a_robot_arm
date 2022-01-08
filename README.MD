@@ -9,7 +9,7 @@
 
 
 ## General Info
-The code contains an implementation of the article head and gaze tracking control for a smart wheelchair with robotic arm. Check the following article for an in depth information. **link**. It is part of a project of the human  robot interaction & operation course of the master's degree in automatic control and robotic UPC ETSEIB
+The code contains an implementation of the article head and gaze tracking control for a smart wheelchair with robotic arm. Check the following article for an in depth information. **TODO add link to readme**. It is part of a project of the human  robot interaction & operation course of the master's degree in automatic control and robotic UPC ETSEIB
 
 
 ![Output sample](files/final_demo.gif)
