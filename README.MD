@@ -9,16 +9,18 @@
 
 
 ## General Info
-The code contains an implementation of the article head and gaze tracking control for a smart wheelchair with robotic arm. Check the following article for an in depth information. **TODO add link to readme**. It is part of a project of the human  robot interaction & operation course of the master's degree in automatic control and robotic UPC ETSEIB
+The code contains an implementation of the article head and gaze tracking control for a smart wheelchair with robotic arm. Check the following link that contains video demos, and an artile with for an in depth information of this project: [link to project description](https://drive.google.com/drive/folders/1Af1GDXXvdE6rkpkNgx9cCG_ovlDowA7C?usp=sharing). It is part of a project of the human  robot interaction & operation course of the master's degree in automatic control and robotic UPC ETSEIB
+
+
 
 
 ![Output sample](files/final_demo.gif)
 
 
 ## Dependencies
-1. In order to execute the python code with ros, you need to have a python3 environment compatible with ros. In order to do so, follow the instructions in the following video(only install necessay dependecies!!!!) https://www.youtube.com/watch?v=oxK4ykVh1EE
+1. In order to execute the python code with ros, you need to have a python3 environment compatible with ros. In order to do so, follow the instructions in the following video(only install necessay dependecies!!!!) [python3 + ros](https://www.youtube.com/watch?v=oxK4ykVh1EE)
 2. Download the husky package, this can be seen in the following link
-http://wiki.ros.org/husky_gazebo/Tutorials/Simulating%20Husky
+[husky package](http://wiki.ros.org/husky_gazebo/Tutorials/Simulating%20Husky)
 3. Download the robotiq gripper package in your src folder
 ```
 git clone https://github.com/utecrobotics/robotiq
